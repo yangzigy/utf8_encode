@@ -1,14 +1,14 @@
-__author__ = 'x1ang.li'
+#!/usr/local/bin/python3
 
 import chardet
+import sys
 import os
 
 #Config info, please change!
-root_path = '/the/path/to/your/project/source/code ' # Important: please change this !
-ext_filter = ['txt','java','py','php']
+ext_filter = ['txt','c','cpp','h','cs','py']
 
 
-def walkdir(dirname):
+def walkdir(dirname): #遍历文件夹中的每一个文件
     assert os.path.isdir(dirname)
     for root, dirs, files in os.walk(dirname):
         for filename in files:
@@ -17,7 +17,7 @@ def walkdir(dirname):
                 filename = os.path.join(root, filename)
                 walkfile(filename)
 
-def walkfile(filename):
+def walkfile(filename): #对于一个文件
     assert os.path.isfile(filename)
     print("Opening file: {}".format(filename))
     with open(filename, 'rb') as f: # read under the binary mode
@@ -38,7 +38,7 @@ def walkfile(filename):
             f.write(strdata.encode('utf-8'))
         print("End writing file: {} in UTF-8".format(filename))
 
-def main():
+def main(root_path):
     print ("Start running main()")
     if os.path.isdir(root_path):
         walkdir(root_path)
@@ -52,4 +52,7 @@ def main():
     return
 
 if __name__ == '__main__':
-    main()
+	if len(sys.argv)==2:
+		main(sys.argv[1])
+	else :
+		print("need a param")
